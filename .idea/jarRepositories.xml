@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="3a4eb7f9-e888-4c52-acbe-aeb2dc7ea819" />
+      <option name="name" value="3a4eb7f9-e888-4c52-acbe-aeb2dc7ea819" />
+      <option name="url" value="https://maven.aliyun.com/repository/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="a7b1e447-586f-43c8-aa03-15dd0f0c6c7c" />
+      <option name="name" value="a7b1e447-586f-43c8-aa03-15dd0f0c6c7c" />
+      <option name="url" value="https://maven.aliyun.com/repository/gradle-plugin" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="6eb18694-a4e0-4a8f-85cd-06e9647ddd6f" />
+      <option name="name" value="6eb18694-a4e0-4a8f-85cd-06e9647ddd6f" />
+      <option name="url" value="https://maven.aliyun.com/repository/spring" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="24b16754-eb2c-49b7-8704-d65315730266" />
+      <option name="name" value="24b16754-eb2c-49b7-8704-d65315730266" />
+      <option name="url" value="https://repo.spring.io/libs-snapshot-local" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://maven.aliyun.com/repository/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="de930808-14f6-4490-98ff-32f28581ba34" />
+      <option name="name" value="de930808-14f6-4490-98ff-32f28581ba34" />
+      <option name="url" value="https://maven.aliyun.com/repository/spring-plugin" />
+    </remote-repository>
+  </component>
+</project>
