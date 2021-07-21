@@ -1,4 +1,6 @@
-package enumeration;
+package Exception;
+
+import enumeration.RpcError;
 
 /**
  * RPC调用异常
