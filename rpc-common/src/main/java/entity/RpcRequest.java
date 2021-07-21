@@ -3,6 +3,8 @@ package entity;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 服务端需要哪些信息，才能唯一确定服务端需要调用的接口的方法呢？
  * 首先，就是接口的名字，和方法的名字，但是由于方法重载的缘故，还需要这个方法的所有参数的类型，
@@ -12,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class RpcRequest {
+public class RpcRequest implements Serializable {
     /**
      * 待调用接口名称
      */
