@@ -2,7 +2,6 @@ package client;
 
 import entity.RpcRequest;
 import entity.RpcResponse;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;

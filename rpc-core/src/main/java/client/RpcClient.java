@@ -10,7 +10,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
- * 这个对象的作用，就是将一个对象发过去，并且接受返回的对象
+ * 这个对象的作用，就是将一个对象发过去，并且接受返回的对象。
  * Created by tangssst@qq.com on 2021/07/21
  */
 public class RpcClient {
