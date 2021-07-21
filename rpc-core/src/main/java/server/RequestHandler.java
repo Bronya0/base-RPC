@@ -2,8 +2,10 @@ package server;
 
 import entity.RpcRequest;
 import entity.RpcResponse;
+import enumeration.ResponseCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,13 +18,13 @@ import java.net.Socket;
  * 实现了Runnable接口，用于接收RpcRequest对象，解析并且调用，生成RpcResponse对象并传输回去。
  * Created by tangssst@qq.com on 2021/07/21
  */
-public class WorkerThread implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(WorkerThread.class);
+public class RequestHandler implements Runnable {
+    private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
     private Socket socket;
     private Object service;
 
-    public WorkerThread(Socket socket, Object service) {
+    public RequestHandler(Socket socket, Object service) {
         this.socket = socket;
         this.service = service;
     }
@@ -35,13 +37,25 @@ public class WorkerThread implements Runnable {
         try (ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream())) {
             RpcRequest rpcRequest = (RpcRequest) objectInputStream.readObject();
-            Method method = service.getClass().getMethod(rpcRequest.getMethodName(), rpcRequest.getParamTypes());
-            Object returnObject = method.invoke(service, rpcRequest.getParameters());
+            Object returnObject = invokeMethod(rpcRequest);;
             objectOutputStream.writeObject(RpcResponse.success(returnObject));
             objectOutputStream.flush();
-        } catch (IOException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (IOException | ClassNotFoundException | IllegalAccessException | InvocationTargetException e) {
             logger.error("调用或发送时有错误发生：", e);
         }
+    }
+    private Object invokeMethod(RpcRequest rpcRequest) throws IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+        Class<?> clazz = Class.forName(rpcRequest.getInterfaceName());
+        if(!clazz.isAssignableFrom(service.getClass())) {
+            return RpcResponse.fail(ResponseCode.CLASS_NOT_FOUND);
+        }
+        Method method;
+        try {
+            method = service.getClass().getMethod(rpcRequest.getMethodName(), rpcRequest.getParamTypes());
+        } catch (NoSuchMethodException e) {
+            return RpcResponse.fail(ResponseCode.METHOD_NOT_FOUND);
+        }
+        return method.invoke(service, rpcRequest.getParameters());
     }
 
 }
