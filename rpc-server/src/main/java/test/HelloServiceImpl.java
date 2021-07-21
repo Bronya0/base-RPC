@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory;
  */
 public class HelloServiceImpl implements HelloService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(HelloServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(HelloServiceImpl.class);
 
     @Override
     public String hello(HelloObject object) {
-        LOG.info("接收到：{}", object.getMessage());
+        logger.info("接收到：{}", object.getMessage());
         return "这是掉用的返回值，id=" + object.getId();
     }
 
