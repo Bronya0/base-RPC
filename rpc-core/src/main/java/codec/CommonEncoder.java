@@ -12,6 +12,8 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * Created by tangssst@qq.com on 2021/07/21
  */
 public class CommonEncoder extends MessageToByteEncoder {
+
+    // 4 字节魔数，表示一个协议包
     private static final int MAGIC_NUMBER = 0xCAFEBABE;
 
     private final CommonSerializer serializer;
@@ -20,6 +22,7 @@ public class CommonEncoder extends MessageToByteEncoder {
         this.serializer = serializer;
     }
 
+    //Package Type，标明这是一个调用请求还是调用响应
     @Override
     protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
         out.writeInt(MAGIC_NUMBER);

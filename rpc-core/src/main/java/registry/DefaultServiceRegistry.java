@@ -18,6 +18,11 @@ public class DefaultServiceRegistry implements ServiceRegistry{
     private static final Map<String, Object> serviceMap = new ConcurrentHashMap<>();
     private static final Set<String> registeredService = ConcurrentHashMap.newKeySet();
 
+    /**
+     * 注册服务
+     * @param service 待注册的服务实体
+     * @param <T>
+     */
     @Override
     public synchronized <T> void register(T service) {
         String serviceName = service.getClass().getCanonicalName();

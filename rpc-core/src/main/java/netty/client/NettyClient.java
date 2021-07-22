@@ -17,10 +17,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * NIO方式消费侧客户端类
- * Created by tangssst@qq.com on 2021/07/21
+ * Created by tangssst@qq.com
  */
 public class NettyClient implements RpcClient {
-
     private static final Logger logger = LoggerFactory.getLogger(NettyClient.class);
 
     private String host;
