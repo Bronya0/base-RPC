@@ -1,4 +1,4 @@
-package Serializer;
+package serializer;
 
 /**
  * Created by tangssst@qq.com on 2021/07/21

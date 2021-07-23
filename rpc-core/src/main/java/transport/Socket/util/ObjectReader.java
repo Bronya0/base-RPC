@@ -1,13 +1,13 @@
-package Socket.util;
+package transport.Socket.util;
 
 import Exception.RpcException;
-import Serializer.CommonSerializer;
 import entity.RpcRequest;
 import entity.RpcResponse;
 import enumeration.PackageType;
 import enumeration.RpcError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import serializer.CommonSerializer;
 
 import java.io.IOException;
 import java.io.InputStream;

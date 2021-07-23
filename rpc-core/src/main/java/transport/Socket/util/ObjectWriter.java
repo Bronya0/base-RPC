@@ -1,8 +1,8 @@
-package Socket.util;
+package transport.Socket.util;
 
-import Serializer.CommonSerializer;
 import entity.RpcRequest;
 import enumeration.PackageType;
+import serializer.CommonSerializer;
 
 import java.io.IOException;
 import java.io.OutputStream;

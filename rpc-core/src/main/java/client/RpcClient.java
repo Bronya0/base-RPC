@@ -1,7 +1,7 @@
 package client;
 
-import Serializer.CommonSerializer;
 import entity.RpcRequest;
+import serializer.CommonSerializer;
 
 /**
  * 客户端类通用接口

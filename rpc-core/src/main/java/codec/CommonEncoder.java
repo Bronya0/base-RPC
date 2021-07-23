@@ -1,11 +1,11 @@
 package codec;
 
-import Serializer.CommonSerializer;
 import entity.RpcRequest;
 import enumeration.PackageType;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import serializer.CommonSerializer;
 
 /**
  * 通用的编码拦截器

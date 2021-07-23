@@ -1,9 +1,9 @@
-import Serializer.ProtobufSerializer;
 import api.HelloObject;
 import api.HelloService;
 import client.RpcClient;
 import client.RpcClientProxy;
-import netty.client.NettyClient;
+import serializer.ProtobufSerializer;
+import transport.netty.client.NettyClient;
 
 /**
  * 测试用Netty消费者
@@ -12,7 +12,7 @@ import netty.client.NettyClient;
 public class NettyTestClient {
 
     public static void main(String[] args) {
-        RpcClient client = new NettyClient("127.0.0.1", 9999);
+        RpcClient client = new NettyClient();
         client.setSerializer(new ProtobufSerializer());
         RpcClientProxy rpcClientProxy = new RpcClientProxy(client);
         HelloService helloService = rpcClientProxy.getProxy(HelloService.class);

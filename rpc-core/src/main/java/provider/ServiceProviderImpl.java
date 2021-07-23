@@ -1,4 +1,4 @@
-package registry;
+package provider;
 
 import Exception.RpcException;
 import enumeration.RpcError;
@@ -10,38 +10,33 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by tangssst@qq.com on 2021/07/21
+ * @author tangssst@qq.com
  */
-public class DefaultServiceRegistry implements ServiceRegistry{
-    private static final Logger logger = LoggerFactory.getLogger(DefaultServiceRegistry.class);
+public class ServiceProviderImpl implements ServiceProvider{
+    private static final Logger logger = LoggerFactory.getLogger(ServiceProviderImpl.class);
 
     private static final Map<String, Object> serviceMap = new ConcurrentHashMap<>();
     private static final Set<String> registeredService = ConcurrentHashMap.newKeySet();
 
-    /**
-     * 注册服务
-     * @param service 待注册的服务实体
-     * @param <T>
-     */
     @Override
-    public synchronized <T> void register(T service) {
+    public <T> void addServiceProvider(T service) {
         String serviceName = service.getClass().getCanonicalName();
-        if(registeredService.contains(serviceName)) return;
+        if (registeredService.contains(serviceName)) return;
         registeredService.add(serviceName);
         Class<?>[] interfaces = service.getClass().getInterfaces();
-        if(interfaces.length == 0) {
+        if (interfaces.length == 0) {
             throw new RpcException(RpcError.SERVICE_NOT_IMPLEMENT_ANY_INTERFACE);
         }
-        for(Class<?> i : interfaces) {
+        for (Class<?> i : interfaces) {
             serviceMap.put(i.getCanonicalName(), service);
         }
         logger.info("向接口: {} 注册服务: {}", interfaces, serviceName);
     }
 
     @Override
-    public synchronized Object getService(String serviceName) {
+    public Object getServiceProvider(String serviceName) {
         Object service = serviceMap.get(serviceName);
-        if(service == null) {
+        if (service == null) {
             throw new RpcException(RpcError.SERVICE_NOT_FOUND);
         }
         return service;

@@ -1,4 +1,4 @@
-package Serializer;
+package serializer;
 
 import Exception.SerializeException;
 import com.caucho.hessian.io.HessianInput;

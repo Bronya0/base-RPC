@@ -1,7 +1,6 @@
 package codec;
 
 import Exception.RpcException;
-import Serializer.CommonSerializer;
 import entity.RpcRequest;
 import entity.RpcResponse;
 import enumeration.PackageType;
@@ -11,6 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ReplayingDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import serializer.CommonSerializer;
 
 import java.util.List;
 

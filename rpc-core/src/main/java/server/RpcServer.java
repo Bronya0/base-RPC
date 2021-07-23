@@ -1,6 +1,6 @@
 package server;
 
-import Serializer.CommonSerializer;
+import serializer.CommonSerializer;
 
 /**
  * 服务端通用接口
@@ -8,6 +8,9 @@ import Serializer.CommonSerializer;
  */
 public interface RpcServer {
 
-    void start(int port);
+    void start();
+
     void setSerializer(CommonSerializer serializer);
+
+    <T> void publishService(Object service, Class<T> serviceClass);
 }

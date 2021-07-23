@@ -1,7 +1,6 @@
-package netty.client;
+package transport.netty.client;
 
 import Exception.RpcException;
-import Serializer.CommonSerializer;
 import codec.CommonDecoder;
 import codec.CommonEncoder;
 import enumeration.RpcError;
@@ -12,6 +11,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import serializer.CommonSerializer;
 
 import java.net.InetSocketAddress;
 import java.util.Date;

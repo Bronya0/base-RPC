@@ -1,4 +1,4 @@
-package Serializer;
+package serializer;
 
 import enumeration.SerializerCode;
 import io.protostuff.LinkedBuffer;

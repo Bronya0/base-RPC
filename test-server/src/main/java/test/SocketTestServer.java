@@ -1,10 +1,8 @@
 package test;
 
-import Serializer.HessianSerializer;
-import Socket.server.SocketServer;
 import api.HelloService;
-import registry.DefaultServiceRegistry;
-import registry.ServiceRegistry;
+import serializer.HessianSerializer;
+import transport.Socket.server.SocketServer;
 
 /**
  * 测试用服务提供方（服务端）
@@ -13,10 +11,8 @@ import registry.ServiceRegistry;
 public class SocketTestServer {
     public static void main(String[] args) {
         HelloService helloService = new HelloServiceImpl();
-        ServiceRegistry serviceRegistry = new DefaultServiceRegistry();
-        serviceRegistry.register(helloService);
-        SocketServer socketServer = new SocketServer(serviceRegistry);
+        SocketServer socketServer = new SocketServer("127.0.0.1", 9998);
         socketServer.setSerializer(new HessianSerializer());
-        socketServer.start(9999);
+        socketServer.publishService(helloService, HelloService.class);
     }
 }

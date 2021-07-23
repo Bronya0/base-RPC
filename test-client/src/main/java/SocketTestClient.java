@@ -1,8 +1,8 @@
-import Serializer.KryoSerializer;
-import Socket.client.SocketClient;
 import api.HelloObject;
 import api.HelloService;
 import client.RpcClientProxy;
+import serializer.KryoSerializer;
+import transport.Socket.client.SocketClient;
 
 /**
  * 测试用消费者（客户端）
@@ -10,7 +10,7 @@ import client.RpcClientProxy;
  */
 public class SocketTestClient {
     public static void main(String[] args) {
-        SocketClient client = new SocketClient("127.0.0.1", 9999);
+        SocketClient client = new SocketClient();
         client.setSerializer(new KryoSerializer());
         RpcClientProxy proxy = new RpcClientProxy(client);
         HelloService helloService = proxy.getProxy(HelloService.class);
