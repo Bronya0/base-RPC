@@ -1,5 +1,6 @@
 package test;
 
+import Serializer.HessianSerializer;
 import Socket.server.SocketServer;
 import api.HelloService;
 import registry.DefaultServiceRegistry;
@@ -15,6 +16,7 @@ public class SocketTestServer {
         ServiceRegistry serviceRegistry = new DefaultServiceRegistry();
         serviceRegistry.register(helloService);
         SocketServer socketServer = new SocketServer(serviceRegistry);
+        socketServer.setSerializer(new HessianSerializer());
         socketServer.start(9000);
     }
 }

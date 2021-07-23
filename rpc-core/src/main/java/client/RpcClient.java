@@ -1,5 +1,6 @@
 package client;
 
+import Serializer.CommonSerializer;
 import entity.RpcRequest;
 
 /**
@@ -7,4 +8,5 @@ import entity.RpcRequest;
  */
 public interface RpcClient {
     Object sendRequest(RpcRequest rpcRequest);
+    void setSerializer(CommonSerializer serializer);
 }
