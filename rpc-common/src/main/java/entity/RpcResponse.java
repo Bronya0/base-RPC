@@ -12,7 +12,10 @@ import java.io.Serializable;
 @Data
 public class RpcResponse<T> implements Serializable {
 
-
+    /**
+     * 响应对应的请求号
+     */
+    private String requestId;
     /**
      * 响应状态码
      */
@@ -25,18 +28,22 @@ public class RpcResponse<T> implements Serializable {
      * 响应数据
      */
     private T data;
+
     public RpcResponse() {
     }
 
-    public static <T> RpcResponse<T> success(T data) {
+    public static <T> RpcResponse<T> success(T data, String requestId) {
         RpcResponse<T> response = new RpcResponse<>();
         response.setStatusCode(ResponseCode.SUCCESS.getCode());
+        response.setRequestId(requestId);
         response.setData(data);
         return response;
     }
-    public static <T> RpcResponse<T> fail(ResponseCode code) {
+
+    public static <T> RpcResponse<T> fail(ResponseCode code, String requestId) {
         RpcResponse<T> response = new RpcResponse<>();
         response.setStatusCode(code.getCode());
+        response.setRequestId(requestId);
         response.setMessage(code.getMessage());
         return response;
     }
