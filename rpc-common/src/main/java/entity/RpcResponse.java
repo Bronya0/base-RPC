@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Data
 public class RpcResponse<T> implements Serializable {
 
-    public RpcResponse() {}
 
     /**
      * 响应状态码
@@ -26,6 +25,8 @@ public class RpcResponse<T> implements Serializable {
      * 响应数据
      */
     private T data;
+    public RpcResponse() {
+    }
 
     public static <T> RpcResponse<T> success(T data) {
         RpcResponse<T> response = new RpcResponse<>();

@@ -1,6 +1,6 @@
 package netty.client;
 
-import Serializer.KryoSerializer;
+import Serializer.HessianSerializer;
 import client.RpcClient;
 import codec.CommonDecoder;
 import codec.CommonEncoder;
@@ -42,7 +42,7 @@ public class NettyClient implements RpcClient {
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
                         pipeline.addLast(new CommonDecoder())
-                                .addLast(new CommonEncoder(new KryoSerializer()))
+                                .addLast(new CommonEncoder(new HessianSerializer()))
                                 .addLast(new NettyClientHandler());
                     }
                 });
@@ -68,7 +68,6 @@ public class NettyClient implements RpcClient {
                 RpcResponse rpcResponse = channel.attr(key).get();
                 return rpcResponse.getData();
             }
-
         } catch (InterruptedException e) {
             logger.error("发送消息时有错误发生: ", e);
         }
