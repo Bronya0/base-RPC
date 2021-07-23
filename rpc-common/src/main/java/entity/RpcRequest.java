@@ -2,6 +2,7 @@ package entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class RpcRequest implements Serializable {
     /**
      * 请求号
@@ -35,8 +37,6 @@ public class RpcRequest implements Serializable {
      * 调用方法的参数类型
      */
     private Class<?>[] paramTypes;
-
-    public RpcRequest() {}
 
 
 }

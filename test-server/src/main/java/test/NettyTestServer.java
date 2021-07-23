@@ -1,6 +1,6 @@
 package test;
 
-import Serializer.KryoSerializer;
+import Serializer.ProtobufSerializer;
 import api.HelloService;
 import netty.server.NettyServer;
 import registry.DefaultServiceRegistry;
@@ -15,7 +15,7 @@ public class NettyTestServer {
         ServiceRegistry registry = new DefaultServiceRegistry();
         registry.register(helloService);
         NettyServer server = new NettyServer();
-        server.setSerializer(new KryoSerializer());
+        server.setSerializer(new ProtobufSerializer());
         server.start(9999);
     }
 }
