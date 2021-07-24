@@ -3,6 +3,7 @@ package registry;
 import java.net.InetSocketAddress;
 
 /**
+ * 服务注册接口
  * Created by tangssst@qq.com on 2021/07/21
  */
 public interface ServiceRegistry {
@@ -15,11 +16,5 @@ public interface ServiceRegistry {
      */
     void register(String serviceName, InetSocketAddress inetSocketAddress);
 
-    /**
-     * 根据服务名称查找服务实体
-     *
-     * @param serviceName 服务名称
-     * @return 服务实体
-     */
-    InetSocketAddress lookupService(String serviceName);
+
 }

@@ -18,7 +18,7 @@ import provider.ServiceProviderImpl;
 import registry.NacosServiceRegistry;
 import registry.ServiceRegistry;
 import serializer.CommonSerializer;
-import server.RpcServer;
+import transport.RpcServer;
 
 import java.net.InetSocketAddress;
 
@@ -44,12 +44,12 @@ public class NettyServer implements RpcServer {
     }
 
     @Override
-    public <T> void publishService(Object service, Class<T> serviceClass) {
+    public <T> void publishService(T service, Class<T> serviceClass) {
         if(serializer == null) {
             logger.error("未设置序列化器");
             throw new RpcException(RpcError.SERIALIZER_NOT_FOUND);
         }
-        serviceProvider.addServiceProvider(service);
+        serviceProvider.addServiceProvider(service, serviceClass);
         serviceRegistry.register(serviceClass.getCanonicalName(), new InetSocketAddress(host, port));
         start();
     }

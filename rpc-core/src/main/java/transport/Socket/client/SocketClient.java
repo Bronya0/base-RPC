@@ -1,16 +1,16 @@
 package transport.Socket.client;
 
 import Exception.RpcException;
-import client.RpcClient;
 import entity.RpcRequest;
 import entity.RpcResponse;
 import enumeration.ResponseCode;
 import enumeration.RpcError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import registry.NacosServiceRegistry;
-import registry.ServiceRegistry;
+import registry.NacosServiceDiscovery;
+import registry.ServiceDiscovery;
 import serializer.CommonSerializer;
+import transport.RpcClient;
 import transport.Socket.util.ObjectReader;
 import transport.Socket.util.ObjectWriter;
 import util.RpcMessageChecker;
@@ -28,11 +28,11 @@ public class SocketClient implements RpcClient {
 
     private static final Logger logger = LoggerFactory.getLogger(SocketClient.class);
 
-    private final ServiceRegistry serviceRegistry;
+    private final ServiceDiscovery serviceDiscovery;
     private CommonSerializer serializer;
 
     public SocketClient() {
-        this.serviceRegistry = new NacosServiceRegistry();
+        this.serviceDiscovery = new NacosServiceDiscovery();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class SocketClient implements RpcClient {
             logger.error("未设置序列化器");
             throw new RpcException(RpcError.SERIALIZER_NOT_FOUND);
         }
-        InetSocketAddress inetSocketAddress = serviceRegistry.lookupService(rpcRequest.getInterfaceName());
+        InetSocketAddress inetSocketAddress = serviceDiscovery.lookupService(rpcRequest.getInterfaceName());
         try (Socket socket = new Socket()) {
             socket.connect(inetSocketAddress);
             OutputStream outputStream = socket.getOutputStream();

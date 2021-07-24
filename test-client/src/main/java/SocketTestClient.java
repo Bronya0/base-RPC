@@ -1,7 +1,7 @@
 import api.HelloObject;
 import api.HelloService;
-import client.RpcClientProxy;
 import serializer.KryoSerializer;
+import transport.RpcClientProxy;
 import transport.Socket.client.SocketClient;
 
 /**

@@ -1,7 +1,6 @@
 package transport.netty.client;
 
 import Exception.RpcException;
-import client.RpcClient;
 import entity.RpcRequest;
 import entity.RpcResponse;
 import enumeration.RpcError;
@@ -14,9 +13,10 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import registry.NacosServiceRegistry;
-import registry.ServiceRegistry;
+import registry.NacosServiceDiscovery;
+import registry.ServiceDiscovery;
 import serializer.CommonSerializer;
+import transport.RpcClient;
 import util.RpcMessageChecker;
 
 import java.net.InetSocketAddress;
@@ -26,10 +26,12 @@ import java.util.concurrent.atomic.AtomicReference;
  * NIO方式消费侧客户端类
  * Created by tangssst@qq.com
  */
+
 public class NettyClient implements RpcClient {
     private static final Logger logger = LoggerFactory.getLogger(NettyClient.class);
+
     private static final Bootstrap bootstrap;
-    private final ServiceRegistry serviceRegistry;
+    private final ServiceDiscovery serviceDiscovery;
 
     private CommonSerializer serializer;
 
@@ -42,7 +44,7 @@ public class NettyClient implements RpcClient {
     }
 
     public NettyClient() {
-        this.serviceRegistry = new NacosServiceRegistry();
+        this.serviceDiscovery = new NacosServiceDiscovery();
     }
 
     @Override
@@ -53,7 +55,7 @@ public class NettyClient implements RpcClient {
         }
         AtomicReference<Object> result = new AtomicReference<>(null);
         try {
-            InetSocketAddress inetSocketAddress = serviceRegistry.lookupService(rpcRequest.getInterfaceName());
+            InetSocketAddress inetSocketAddress = serviceDiscovery.lookupService(rpcRequest.getInterfaceName());
             Channel channel = ChannelProvider.get(inetSocketAddress, serializer);
             if(channel.isActive()) {
                 channel.writeAndFlush(rpcRequest).addListener(future1 -> {
