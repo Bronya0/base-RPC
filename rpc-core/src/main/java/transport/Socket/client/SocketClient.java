@@ -1,6 +1,8 @@
 package transport.Socket.client;
 
 import Exception.RpcException;
+import Loadbalancer.LoadBalancer;
+import Loadbalancer.RandomLoadBalancer;
 import entity.RpcRequest;
 import entity.RpcResponse;
 import enumeration.ResponseCode;
@@ -32,10 +34,17 @@ public class SocketClient implements RpcClient {
     private final CommonSerializer serializer;
 
     public SocketClient() {
-        this(DEFAULT_SERIALIZER);
+        this(DEFAULT_SERIALIZER, new RandomLoadBalancer());
+    }
+    public SocketClient(LoadBalancer loadBalancer) {
+        this(DEFAULT_SERIALIZER, loadBalancer);
     }
     public SocketClient(Integer serializer) {
-        this.serviceDiscovery = new NacosServiceDiscovery();
+        this(serializer, new RandomLoadBalancer());
+    }
+
+    public SocketClient(Integer serializer, LoadBalancer loadBalancer) {
+        this.serviceDiscovery = new NacosServiceDiscovery(loadBalancer);
         this.serializer = CommonSerializer.getByCode(serializer);
     }
 
