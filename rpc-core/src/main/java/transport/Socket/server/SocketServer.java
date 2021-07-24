@@ -1,18 +1,12 @@
 package transport.Socket.server;
 
-import Exception.RpcException;
-import enumeration.RpcError;
 import factory.ThreadPoolFactory;
 import hook.ShutdownHook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import provider.ServiceProvider;
 import provider.ServiceProviderImpl;
 import registry.NacosServiceRegistry;
-import registry.ServiceRegistry;
 import serializer.CommonSerializer;
 import server.RequestHandler;
-import transport.RpcServer;
+import transport.AbstractRpcServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -23,18 +17,11 @@ import java.util.concurrent.ExecutorService;
 /**
  * Created by tangssst@qq.com on 2021/07/21
  */
-public class SocketServer implements RpcServer {
+public class SocketServer extends AbstractRpcServer {
 
-    private static final Logger logger = LoggerFactory.getLogger(SocketServer.class);
-
-    private final ExecutorService threadPool;;
-    private final String host;
-    private final int port;
+    private final ExecutorService threadPool;
     private final CommonSerializer serializer;
     private final RequestHandler requestHandler = new RequestHandler();
-
-    private final ServiceRegistry serviceRegistry;
-    private final ServiceProvider serviceProvider;
 
     public SocketServer(String host, int port) {
         this(host, port, DEFAULT_SERIALIZER);
@@ -47,17 +34,7 @@ public class SocketServer implements RpcServer {
         this.serviceRegistry = new NacosServiceRegistry();
         this.serviceProvider = new ServiceProviderImpl();
         this.serializer = CommonSerializer.getByCode(serializer);
-    }
-
-    @Override
-    public <T> void publishService(T service, Class<T> serviceClass) {
-        if(serializer == null) {
-            logger.error("未设置序列化器");
-            throw new RpcException(RpcError.SERIALIZER_NOT_FOUND);
-        }
-        serviceProvider.addServiceProvider(service, serviceClass);
-        serviceRegistry.register(serviceClass.getCanonicalName(), new InetSocketAddress(host, port));
-        start();
+        scanServices();
     }
 
     @Override

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * 服务端的响应内容
+ * 服务端的响应内容：状态码、补充信息、数据data
  * Created by tangssst@qq.com on 2021/07/21
  */
 @Data

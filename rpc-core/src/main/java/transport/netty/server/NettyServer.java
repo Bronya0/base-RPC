@@ -1,9 +1,7 @@
 package transport.netty.server;
 
-import Exception.RpcException;
 import codec.CommonDecoder;
 import codec.CommonEncoder;
-import enumeration.RpcError;
 import hook.ShutdownHook;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -13,31 +11,19 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import provider.ServiceProvider;
 import provider.ServiceProviderImpl;
 import registry.NacosServiceRegistry;
-import registry.ServiceRegistry;
 import serializer.CommonSerializer;
-import transport.RpcServer;
+import transport.AbstractRpcServer;
 
-import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 
 /**
  * NIO方式服务提供侧
  * Created by tangssst@qq.com on 2021/07/21
  */
-public class NettyServer implements RpcServer {
+public class NettyServer extends AbstractRpcServer {
 
-    private static final Logger logger = LoggerFactory.getLogger(NettyServer.class);
-
-    private final String host;
-    private final int port;
-
-    private final ServiceRegistry serviceRegistry;
-    private final ServiceProvider serviceProvider;
 
     private final CommonSerializer serializer;
 
@@ -51,17 +37,7 @@ public class NettyServer implements RpcServer {
         serviceRegistry = new NacosServiceRegistry();
         serviceProvider = new ServiceProviderImpl();
         this.serializer = CommonSerializer.getByCode(serializer);
-    }
-
-    @Override
-    public <T> void publishService(T service, Class<T> serviceClass) {
-        if(serializer == null) {
-            logger.error("未设置序列化器");
-            throw new RpcException(RpcError.SERIALIZER_NOT_FOUND);
-        }
-        serviceProvider.addServiceProvider(service, serviceClass);
-        serviceRegistry.register(serviceClass.getCanonicalName(), new InetSocketAddress(host, port));
-        start();
+        scanServices();
     }
 
     @Override
