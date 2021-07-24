@@ -1,7 +1,7 @@
 package test;
 
 import api.HelloService;
-import serializer.HessianSerializer;
+import serializer.CommonSerializer;
 import transport.Socket.server.SocketServer;
 
 /**
@@ -11,8 +11,7 @@ import transport.Socket.server.SocketServer;
 public class SocketTestServer {
     public static void main(String[] args) {
         HelloService helloService = new HelloServiceImpl2();
-        SocketServer socketServer = new SocketServer("127.0.0.1", 9998);
-        socketServer.setSerializer(new HessianSerializer());
+        SocketServer socketServer = new SocketServer("127.0.0.1", 9998, CommonSerializer.HESSIAN_SERIALIZER);
         socketServer.publishService(helloService, HelloService.class);
     }
 }

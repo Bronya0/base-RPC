@@ -1,6 +1,6 @@
 import api.HelloObject;
 import api.HelloService;
-import serializer.ProtobufSerializer;
+import serializer.CommonSerializer;
 import transport.RpcClient;
 import transport.RpcClientProxy;
 import transport.netty.client.NettyClient;
@@ -12,8 +12,7 @@ import transport.netty.client.NettyClient;
 public class NettyTestClient {
 
     public static void main(String[] args) {
-        RpcClient client = new NettyClient();
-        client.setSerializer(new ProtobufSerializer());
+        RpcClient client = new NettyClient(CommonSerializer.PROTOBUF_SERIALIZER);
         RpcClientProxy rpcClientProxy = new RpcClientProxy(client);
         HelloService helloService = rpcClientProxy.getProxy(HelloService.class);
         HelloObject object = new HelloObject(12, "This is a message");

@@ -1,7 +1,7 @@
 package test;
 
 import api.HelloService;
-import serializer.ProtobufSerializer;
+import serializer.CommonSerializer;
 import transport.netty.server.NettyServer;
 
 /**
@@ -10,8 +10,7 @@ import transport.netty.server.NettyServer;
 public class NettyTestServer {
     public static void main(String[] args) {
         HelloService helloService = new HelloServiceImpl();
-        NettyServer server = new NettyServer("127.0.0.1", 9999);
-        server.setSerializer(new ProtobufSerializer());
+        NettyServer server = new NettyServer("127.0.0.1", 9999, CommonSerializer.PROTOBUF_SERIALIZER);
         server.publishService(helloService, HelloService.class);
     }
 }
