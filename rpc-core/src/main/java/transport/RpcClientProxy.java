@@ -14,6 +14,7 @@ import java.util.UUID;
  * Created by tangssst@qq.com on 2021/07/21
  */
 public class RpcClientProxy implements InvocationHandler {
+
     private static final Logger logger = LoggerFactory.getLogger(RpcClientProxy.class);
 
     private final RpcClient client;
@@ -38,7 +39,7 @@ public class RpcClientProxy implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) {
         logger.info("调用方法: {}#{}", method.getDeclaringClass().getName(), method.getName());
         RpcRequest rpcRequest = new RpcRequest(UUID.randomUUID().toString(), method.getDeclaringClass().getName(),
-                method.getName(), args, method.getParameterTypes());
+                method.getName(), args, method.getParameterTypes(),false);
         return client.sendRequest(rpcRequest);
     }
 }
