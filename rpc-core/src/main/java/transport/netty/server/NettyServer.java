@@ -4,6 +4,7 @@ import Exception.RpcException;
 import codec.CommonDecoder;
 import codec.CommonEncoder;
 import enumeration.RpcError;
+import hook.ShutdownHook;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -76,6 +77,7 @@ public class NettyServer implements RpcServer {
                         }
                     });
             ChannelFuture future = serverBootstrap.bind(host,port).sync();
+            ShutdownHook.getShutdownHook().addClearAllHook();
             future.channel().closeFuture().sync();
 
         } catch (InterruptedException e) {

@@ -2,6 +2,8 @@ package transport.Socket.server;
 
 import Exception.RpcException;
 import enumeration.RpcError;
+import factory.ThreadPoolFactory;
+import hook.ShutdownHook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import provider.ServiceProvider;
@@ -10,9 +12,7 @@ import registry.NacosServiceRegistry;
 import registry.ServiceRegistry;
 import serializer.CommonSerializer;
 import server.RequestHandler;
-import server.RequestHandlerThread;
 import transport.RpcServer;
-import util.ThreadPoolFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -57,12 +57,14 @@ public class SocketServer implements RpcServer {
 
     @Override
     public void start() {
-        try (ServerSocket serverSocket = new ServerSocket(port)) {
+        try (ServerSocket serverSocket = new ServerSocket()) {
+            serverSocket.bind(new InetSocketAddress(host, port));
             logger.info("服务器启动……");
+            ShutdownHook.getShutdownHook().addClearAllHook();
             Socket socket;
             while ((socket = serverSocket.accept()) != null) {
                 logger.info("消费者连接: {}:{}", socket.getInetAddress(), socket.getPort());
-                threadPool.execute(new RequestHandlerThread(socket, requestHandler, serviceRegistry, serializer));
+                threadPool.execute(new SocketRequestHandlerThread(socket, requestHandler, serializer));
             }
             threadPool.shutdown();
         } catch (IOException e) {

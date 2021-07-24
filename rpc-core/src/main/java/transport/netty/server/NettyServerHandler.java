@@ -2,6 +2,8 @@ package transport.netty.server;
 
 import entity.RpcRequest;
 import entity.RpcResponse;
+import factory.SingletonFactory;
+import factory.ThreadPoolFactory;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -10,7 +12,6 @@ import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import server.RequestHandler;
-import util.ThreadPoolFactory;
 
 import java.util.concurrent.ExecutorService;
 
@@ -21,13 +22,14 @@ import java.util.concurrent.ExecutorService;
 public class NettyServerHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
     private static final Logger logger = LoggerFactory.getLogger(NettyServerHandler.class);
-    private static RequestHandler requestHandler;
     private static final String THREAD_NAME_PREFIX = "netty-server-handler";
-    private static final ExecutorService threadPool;
 
-    static {
-        requestHandler = new RequestHandler();
-        threadPool = ThreadPoolFactory.createDefaultThreadPool(THREAD_NAME_PREFIX);
+    private final ExecutorService threadPool;
+    private final RequestHandler requestHandler;
+
+    public NettyServerHandler() {
+        this.requestHandler = SingletonFactory.getInstance(RequestHandler.class);
+        this.threadPool = ThreadPoolFactory.createDefaultThreadPool(THREAD_NAME_PREFIX);
     }
 
     @Override
