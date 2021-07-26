@@ -18,6 +18,7 @@ import java.net.InetSocketAddress;
 
 /**
  * Netty客户端侧处理器
+ * 只处理RpcResponse对象，由于前面已经有解码器解码了，这里就直接将返回的结果放入 ctx 中即可
  * Created by tangssst@qq.com on 2021/07/21
  */
 public class NettyClientHandler extends SimpleChannelInboundHandler<RpcResponse> {

@@ -6,9 +6,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 未处理请求列表
  * @author tangssst@qq.com
  */
 public class UnprocessedRequests {
+
+    //列表存放在map里
     private static ConcurrentHashMap<String, CompletableFuture<RpcResponse>> unprocessedResponseFutures = new ConcurrentHashMap<>();
 
     public void put(String requestId, CompletableFuture<RpcResponse> future) {

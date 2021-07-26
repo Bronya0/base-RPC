@@ -24,12 +24,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class NettyServer extends AbstractRpcServer {
 
-
     private final CommonSerializer serializer;
-
-    public NettyServer(String host, int port) {
-        this(host, port, DEFAULT_SERIALIZER);
-    }
 
     public NettyServer(String host, int port, Integer serializer) {
         this.host = host;
@@ -46,11 +41,12 @@ public class NettyServer extends AbstractRpcServer {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
-
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
+                    //日志级别
                     .handler(new LoggingHandler(LogLevel.INFO))
+                    //backlog大小
                     .option(ChannelOption.SO_BACKLOG, 256)
                     .option(ChannelOption.SO_KEEPALIVE, true)
                     .childOption(ChannelOption.TCP_NODELAY, true)
@@ -58,9 +54,13 @@ public class NettyServer extends AbstractRpcServer {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
+                            //心跳机制
                             pipeline.addLast(new IdleStateHandler(30, 0, 0, TimeUnit.SECONDS))
+                                    //编码器
                                     .addLast(new CommonEncoder(serializer))
+                                    //解码器
                                     .addLast(new CommonDecoder())
+                                    //数据处理器
                                     .addLast(new NettyServerHandler());
                         }
                     });

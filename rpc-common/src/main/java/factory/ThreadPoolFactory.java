@@ -27,43 +27,6 @@ public class ThreadPoolFactory {
     private ThreadPoolFactory() {
     }
 
-    public static ExecutorService createDefaultThreadPool(String threadNamePrefix) {
-        return createDefaultThreadPool(threadNamePrefix, false);
-    }
-
-    public static ExecutorService createDefaultThreadPool(String threadNamePrefix, Boolean daemon) {
-        ExecutorService pool = threadPollsMap.computeIfAbsent(threadNamePrefix, k -> createThreadPool(threadNamePrefix, daemon));
-        if (pool.isShutdown() || pool.isTerminated()) {
-            threadPollsMap.remove(threadNamePrefix);
-            pool = createThreadPool(threadNamePrefix, daemon);
-            threadPollsMap.put(threadNamePrefix, pool);
-        }
-        return pool;
-
-    }
-
-    public static void shutDownAll() {
-        logger.info("关闭所有线程池...");
-        threadPollsMap.entrySet().parallelStream().forEach(entry -> {
-            ExecutorService executorService = entry.getValue();
-            executorService.shutdown();
-            logger.info("关闭线程池 [{}] [{}]", entry.getKey(), executorService.isTerminated());
-            try {
-                executorService.awaitTermination(10, TimeUnit.SECONDS);
-            } catch (InterruptedException ie) {
-                logger.error("关闭线程池失败！");
-                executorService.shutdownNow();
-            }
-        });
-    }
-
-    private static ExecutorService createThreadPool(String threadNamePrefix, Boolean daemon) {
-        BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(BLOCKING_QUEUE_CAPACITY);
-        ThreadFactory threadFactory = createThreadFactory(threadNamePrefix, daemon);
-        return new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE_SIZE, KEEP_ALIVE_TIME, TimeUnit.MINUTES, workQueue, threadFactory);
-    }
-
-
     /**
      * 创建 ThreadFactory 。
      * 如果threadNamePrefix不为空则使用自建ThreadFactory，否则使用defaultThreadFactory
@@ -82,4 +45,45 @@ public class ThreadPoolFactory {
 
         return Executors.defaultThreadFactory();
     }
+
+    public static ExecutorService createDefaultThreadPool(String threadNamePrefix) {
+        return createDefaultThreadPool(threadNamePrefix, false);
+    }
+
+    public static ExecutorService createDefaultThreadPool(String threadNamePrefix, Boolean daemon) {
+        ExecutorService pool = threadPollsMap.computeIfAbsent(threadNamePrefix, k -> createThreadPool(threadNamePrefix, daemon));
+        if (pool.isShutdown() || pool.isTerminated()) {
+            threadPollsMap.remove(threadNamePrefix);
+            pool = createThreadPool(threadNamePrefix, daemon);
+            threadPollsMap.put(threadNamePrefix, pool);
+        }
+        return pool;
+    }
+
+    private static ExecutorService createThreadPool(String threadNamePrefix, Boolean daemon) {
+        BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(BLOCKING_QUEUE_CAPACITY);
+        ThreadFactory threadFactory = createThreadFactory(threadNamePrefix, daemon);
+        return new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE_SIZE, KEEP_ALIVE_TIME, TimeUnit.MINUTES, workQueue, threadFactory);
+    }
+
+
+    public static void shutDownAll() {
+        logger.info("关闭所有线程池...");
+        threadPollsMap.entrySet().parallelStream().forEach(entry -> {
+            ExecutorService executorService = entry.getValue();
+            executorService.shutdown();
+            logger.info("关闭线程池 [{}] [{}]", entry.getKey(), executorService.isTerminated());
+            try {
+                executorService.awaitTermination(10, TimeUnit.SECONDS);
+            } catch (InterruptedException ie) {
+                logger.error("关闭线程池失败！");
+                executorService.shutdownNow();
+            }
+        });
+    }
+
+
+
+
+
 }

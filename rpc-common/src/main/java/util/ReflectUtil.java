@@ -13,6 +13,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
+ * 反射工具类
+ * 主要就是 getClasses 方法，传入一个包名，用于扫描该包及其子包下所有的类，并将其 Class 对象放入一个 Set 中返回
  * @author tangssst@qq.com
  */
 public class ReflectUtil {

@@ -5,6 +5,7 @@ import com.alibaba.nacos.api.naming.pojo.Instance;
 import java.util.List;
 
 /**
+ * 轮询
  * @author tangssst@qq.com
  */
 public class RoundRobinLoadBalancer implements LoadBalancer{
@@ -17,4 +18,5 @@ public class RoundRobinLoadBalancer implements LoadBalancer{
         }
         return instances.get(index++);
     }
+
 }

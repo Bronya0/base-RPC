@@ -16,6 +16,7 @@ public class ServiceProviderImpl implements ServiceProvider{
     private static final Logger logger = LoggerFactory.getLogger(ServiceProviderImpl.class);
 
     private static final Map<String, Object> serviceMap = new ConcurrentHashMap<>();
+    //已注册服务，服务名的集合
     private static final Set<String> registeredService = ConcurrentHashMap.newKeySet();
 
     @Override

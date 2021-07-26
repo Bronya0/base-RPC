@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
+ * 随机
  * @author tangssst@qq.com
  */
 public class RandomLoadBalancer implements LoadBalancer{

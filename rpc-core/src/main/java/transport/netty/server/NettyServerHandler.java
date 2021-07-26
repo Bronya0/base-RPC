@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import server.RequestHandler;
 
 /**
- * Netty中处理RpcRequest的Handler
+ * NettyServerhandler 用于接收 RpcRequest，并且执行调用，将调用结果返回封装成 RpcResponse 发送出去。
  * Created by tangssst@qq.com on 2021/07/21
  */
 public class NettyServerHandler extends SimpleChannelInboundHandler<RpcRequest> {

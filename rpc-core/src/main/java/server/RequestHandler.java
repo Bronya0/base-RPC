@@ -25,11 +25,12 @@ public class RequestHandler{
         serviceProvider = new ServiceProviderImpl();
     }
 
+    //先根据请求的接口名获得服务
     public Object handle(RpcRequest rpcRequest) {
         Object service = serviceProvider.getServiceProvider(rpcRequest.getInterfaceName());
         return invokeTargetMethod(rpcRequest, service);
     }
-
+    //再根据请求的方法名、参数类型从服务中获取要调用的方法，并传入参数值执行，将结果返回
     private Object invokeTargetMethod(RpcRequest rpcRequest, Object service) {
         Object result;
         try {

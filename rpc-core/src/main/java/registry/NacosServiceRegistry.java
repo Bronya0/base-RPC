@@ -10,14 +10,14 @@ import util.NacosUtil;
 import java.net.InetSocketAddress;
 
 /**
+ * Nacos服务注册
  * @author tangssst@qq.com
  */
 public class NacosServiceRegistry implements ServiceRegistry {
 
     private static final Logger logger = LoggerFactory.getLogger(NacosServiceRegistry.class);
 
-
-
+    //将服务名和地址注册
     @Override
     public void register(String serviceName, InetSocketAddress inetSocketAddress) {
         try {

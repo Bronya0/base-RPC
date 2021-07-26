@@ -26,11 +26,17 @@ public abstract class AbstractRpcServer implements RpcServer {
     protected ServiceRegistry serviceRegistry;
     protected ServiceProvider serviceProvider;
 
+    /**
+     * 注解扫描
+     */
     public void scanServices() {
+        //得到启动类的名
         String mainClassName = ReflectUtil.getStackTrace();
         Class<?> startClass;
         try {
+            //复制启动类
             startClass = Class.forName(mainClassName);
+            //判断启动类有无ServiceScan注解
             if (!startClass.isAnnotationPresent(ServiceScan.class)) {
                 logger.error("启动类缺少 @ServiceScan 注解");
                 throw new RpcException(RpcError.SERVICE_SCAN_PACKAGE_NOT_FOUND);
@@ -39,6 +45,7 @@ public abstract class AbstractRpcServer implements RpcServer {
             logger.error("出现未知错误");
             throw new RpcException(RpcError.UNKNOWN_ERROR);
         }
+        //获得注解的值，即启动类的包路径
         String basePackage = startClass.getAnnotation(ServiceScan.class).value();
         if ("".equals(basePackage)) {
             basePackage = mainClassName.substring(0, mainClassName.lastIndexOf("."));
