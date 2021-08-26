@@ -8,16 +8,17 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 /**
- * 创建 ThreadPool(线程池) 的工具类
+ * 线程池工具类
  * @author tangssst@qq.com
  */
 public class ThreadPoolFactory {
+
     private final static Logger logger = LoggerFactory.getLogger(ThreadPoolFactory.class);
 
     /**
      * 线程池参数
      */
-    private static final int CORE_POOL_SIZE = 10;
+    private static final int CORE_POOL_SIZE = 2;
     private static final int MAXIMUM_POOL_SIZE_SIZE = 100;
     private static final int KEEP_ALIVE_TIME = 1;
     private static final int BLOCKING_QUEUE_CAPACITY = 100;
@@ -61,6 +62,7 @@ public class ThreadPoolFactory {
     }
 
     private static ExecutorService createThreadPool(String threadNamePrefix, Boolean daemon) {
+        //使用有界阻塞队列，指定容量
         BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(BLOCKING_QUEUE_CAPACITY);
         ThreadFactory threadFactory = createThreadFactory(threadNamePrefix, daemon);
         return new ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE_SIZE, KEEP_ALIVE_TIME, TimeUnit.MINUTES, workQueue, threadFactory);

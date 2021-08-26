@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * 包类型，是请求还是响应
  * Created by tangssst@qq.com on 2021/07/21
  */
 @AllArgsConstructor

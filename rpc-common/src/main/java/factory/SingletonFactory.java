@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public class SingletonFactory {
 
-    //构造方法私有化
+    //构造方法私有化，防止被外部创建实例
     private SingletonFactory() {}
 
     //存放类——实例的map
